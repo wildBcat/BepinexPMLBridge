@@ -14,43 +14,19 @@ namespace PMLBridge
 
 		void Awake()
 		{
-			try
+			logger = Logger;
+			logger.LogInfo("PML Bridge loaded via BepInEx!");
+
+			// Optional: Load PML mods if PML isn't installed natively
+			string pmlPath = Path.Combine(Paths.PluginPath, "PMLBridgeLibs", "PulsarModLoader.dll");
+			if (!File.Exists(pmlPath))
 			{
-				logger = Logger;
-				logger.LogInfo("PML Bridge loaded via BepInEx!");
-
-				string pmlPath = Path.Combine(Paths.PluginPath, "PMLBridgeLibs", "PulsarModLoader.dll");
-				logger.LogInfo($"Loading PulsarModLoader.dll from: {pmlPath}");
-				if (!File.Exists(pmlPath))
-				{
-					logger.LogError("PulsarModLoader.dll not found in PMLBridgeLibs folder!");
-					return;
-				}
-
+				logger.LogInfo("PulsarModLoader.dll not found in PMLBridgeLibs - assuming PML is installed natively.");
+			}
+			else
+			{
 				Assembly pmlAssembly = Assembly.LoadFrom(pmlPath);
-				logger.LogInfo("Loaded PulsarModLoader.dll into runtime");
-
-				// Target HarmonyInjector.InitializeHarmony
-				Type injectorType = pmlAssembly.GetType("PulsarModLoader.Injections.HarmonyInjector");
-				if (injectorType == null)
-				{
-					logger.LogError("Could not find PulsarModLoader.Injections.HarmonyInjector type!");
-					return;
-				}
-				logger.LogInfo("Found PulsarModLoader.Injections.HarmonyInjector");
-
-				MethodInfo original = injectorType.GetMethod("InitializeHarmony", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
-				if (original == null)
-				{
-					logger.LogError("Could not find InitializeHarmony method in HarmonyInjector!");
-					return;
-				}
-				logger.LogInfo("Found InitializeHarmony method in HarmonyInjector");
-
-				var harmony = new Harmony("com.yourname.pmlbridge");
-				var prefix = typeof(PMLBridge).GetMethod(nameof(DisablePMLInjector), BindingFlags.Static | BindingFlags.NonPublic);
-				harmony.Patch(original, new HarmonyMethod(prefix));
-				logger.LogInfo("Patched PulsarModLoader.Injections.HarmonyInjector.InitializeHarmony to disable PML initialization");
+				logger.LogInfo("Loaded PulsarModLoader.dll into runtime as fallback.");
 
 				Type pulsarModType = pmlAssembly.GetType("PulsarModLoader.PulsarMod");
 				if (pulsarModType == null)
@@ -67,13 +43,13 @@ namespace PMLBridge
 					return;
 				}
 
+				var harmony = new Harmony("com.yourname.pmlbridge");
 				foreach (string dllPath in Directory.GetFiles(modsDir, "*.dll"))
 				{
 					try
 					{
 						Assembly modAssembly = Assembly.LoadFrom(dllPath);
 						logger.LogInfo($"Loaded PML mod assembly: {Path.GetFileName(dllPath)}");
-
 						harmony.PatchAll(modAssembly);
 						logger.LogInfo($"Applied Harmony patches for {Path.GetFileName(dllPath)}");
 
@@ -90,21 +66,11 @@ namespace PMLBridge
 					catch (Exception ex)
 					{
 						logger.LogError($"Failed to load PML mod {Path.GetFileName(dllPath)}: {ex.Message}");
-						logger.LogError($"Stack Trace: {ex.StackTrace}");
 					}
 				}
 			}
-			catch (Exception ex)
-			{
-				logger.LogError($"PML Bridge failed to initialize: {ex.Message}");
-				logger.LogError($"Stack Trace: {ex.StackTrace}");
-			}
-		}
 
-		private static bool DisablePMLInjector()
-		{
-			logger.LogInfo("Blocked PulsarModLoader.Injections.HarmonyInjector.InitializeHarmony from running");
-			return false;
+			logger.LogInfo("PML Bridge initialization complete - PML menu should remain active if PML is installed.");
 		}
 	}
 }
