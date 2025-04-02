@@ -7,8 +7,8 @@ using System.Reflection;
 
 namespace PMLBridge
 {
-	[BepInPlugin("com.yourname.pmlbridge", "PML Bridge", "1.0.0")]
-	public class PMLBridge : BaseUnityPlugin
+	[BepInPlugin("https://github.com/wildBcat/BepinexPMLBridge/tree/main", "BepinexPMLBridge", "1.0.1")]
+	public class BepinexPMLBridge : BaseUnityPlugin
 	{
 		private static ManualLogSource logger;
 
