@@ -93,5 +93,5 @@ PULSARLostColony/
 - Feedback from the *PULSAR* modding community.
 
 ## Issues
-- Report bugs or Harmony conflicts at [Issues](insert-issues-link-here).
+- Report bugs or Harmony conflicts at [https://github.com/wildBcat/BepinexPMLBridge/issues].
 - HarmonyX opcode inversion may break some PML mods—use native PML mode as needed.
