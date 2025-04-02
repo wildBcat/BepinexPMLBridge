@@ -88,4 +88,4 @@ PULSARLostColony/
 - For *PULSAR: Lost Colony* modders and players.
 
 ## Issues
-- Report bugs, mod conflicts, or Thunderstore quirks in the [Issues](insert-issues-link-here) tab.
+- Report bugs, mod conflicts, or Thunderstore quirks in the [Issues](https://github.com/wildBcat/BepinexPMLBridge/issues) tab.
