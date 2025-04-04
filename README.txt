@@ -36,13 +36,53 @@ PULSARLostColony/
 - BepInEx mods tested: `CutsceneSkipper`.
 - Thunderstore/R2Modman users: Manually place PML mods in `PULSARLostColony/Mods/`.
 
-## Building
-- Open `BepinexPMLBridge.sln` in Visual Studio.
-- References:
-  - `BepInEx.dll` (from `BepInEx/core/`)
-  - `UnityEngine.dll` (from game root)
-  - `Harmony.dll` (2.9.0.0 via NuGet or manual)
-- Build and copy `BepinexPMLBridge.dll` to `BepInEx/plugins/`.
+Building
+--------
+
+To build the project:
+
+1.  Open `BepinexPMLBridge.sln` in Visual Studio.
+
+2.  Ensure the following references are correctly configured:
+
+### Required References
+
+| Assembly | Source Location |
+| --- | --- |
+| `BepInEx.dll` | `PULSARLostColony/BepInEx/core/BepInEx.dll` |
+| `0Harmony.dll` | `PULSARLostColony/BepInEx/core/0Harmony.dll` (version 2.2.2.0) |
+| `PulsarModLoader.dll` | `PULSARLostColony/BepInEx/plugins/PMLBridgeLibs/PulsarModLoader.dll` (version 0.12.3.31) |
+| `Assembly-CSharp.dll` | `PULSARLostColony/PULSAR_LostColony_Data/Managed/Assembly-CSharp.dll` |
+| `UnityEngine.dll` | `PULSARLostColony/PULSAR_LostColony_Data/Managed/UnityEngine.dll` |
+| `UnityEngine.CoreModule.dll` | `PULSARLostColony/PULSAR_LostColony_Data/Managed/UnityEngine.CoreModule.dll` |
+| `Mono.Cecil.dll` | `packages/Mono.Cecil.0.11.6/lib/net40/Mono.Cecil.dll` |
+| `Mono.Cecil.Mdb.dll` | `packages/Mono.Cecil.0.11.6/lib/net40/Mono.Cecil.Mdb.dll` |
+| `Mono.Cecil.Pdb.dll` | `packages/Mono.Cecil.0.11.6/lib/net40/Mono.Cecil.Pdb.dll` |
+| `Mono.Cecil.Rocks.dll` | `packages/Mono.Cecil.0.11.6/lib/net40/Mono.Cecil.Rocks.dll` |
+
+### System Assemblies
+
+Also ensure that the following .NET Framework assemblies are available (automatically included in most setups targeting .NET Framework 4.7.2):
+
+-   `System`
+
+-   `System.Core`
+
+-   `System.Xml.Linq`
+
+-   `System.Data.DataSetExtensions`
+
+-   `Microsoft.CSharp`
+
+-   `System.Data`
+
+-   `System.Net.Http`
+
+-   `System.Xml`
+
+1.  Build the project.
+
+2.  Copy the output `BepinexPMLBridge.dll` into your `PULSARLostColony/BepInEx/plugins/` directory.
 
 ## Credits
 - Built with Grok (xAI).
