@@ -1,87 +1,111 @@
-﻿using BepInEx;
-using BepInEx.Logging;
-using HarmonyLib;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using BepInEx;
+using HarmonyLib;
 
-namespace PMLBridge
+namespace BepinexPMLBridge
 {
-	[BepInPlugin("com.yourname.pmlbridge", "BepInEx PML Loader", "1.0.2")]
-	public class PMLBridge : BaseUnityPlugin
-	{
-		private static ManualLogSource logger;
+    [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
+    public class PMLBridgePlugin : BaseUnityPlugin
+    {
+        public const string PluginGuid = "com.wildBcat.bepinex.BepinexPMLBridge";
+        public const string PluginName = "BepInEx PML Bridge";
+        public const string PluginVersion = "1.1.0";
 
-		void Awake()
-		{
-			logger = Logger;
-			logger.LogInfo("BepInEx PML Loader starting...");
-			var harmonyVersion = typeof(HarmonyLib.Harmony).Assembly.GetName().Version;
-			logger.LogInfo($"Harmony version in use: {harmonyVersion}");
+        // Public accessor for PML mod assemblies
+        public static List<Assembly> PMLModAssemblies { get; private set; } = new List<Assembly>();
 
-			// Check for native PML in BepInEx/plugins/
-			string nativePmlPath = Path.Combine(Paths.PluginPath, "PulsarModLoader.dll");
-			string bridgePmlPath = Path.Combine(Paths.PluginPath, "PMLBridgeLibs", "PulsarModLoader.dll");
+        private void Awake()
+        {
+            Logger.LogInfo($"{PluginName} is loading in bridge mode...");
+            InitializeBridge();
+        }
 
-			if (File.Exists(nativePmlPath))
-			{
-				logger.LogInfo("Native PulsarModLoader.dll found in BepInEx/plugins/ - running in native mode.");
-			}
-			else if (File.Exists(bridgePmlPath))
-			{
-				logger.LogInfo("PulsarModLoader.dll found in PMLBridgeLibs/ - loading in bridge mode.");
-				try
-				{
-					Assembly pmlAssembly = Assembly.LoadFrom(bridgePmlPath);
-					logger.LogInfo("Loaded PulsarModLoader.dll into runtime.");
+        private void InitializeBridge()
+        {
+            string modsPath = Path.Combine(Paths.GameRootPath, "Mods");
 
-					Type pulsarModType = pmlAssembly.GetType("PulsarModLoader.PulsarMod");
-					if (pulsarModType == null)
-					{
-						logger.LogError("Could not find PulsarModLoader.PulsarMod type!");
-						return;
-					}
+            if (!Directory.Exists(modsPath))
+            {
+                Logger.LogWarning(
+                    "Mods directory not found. PML mods will not load until the folder exists."
+                );
+                return;
+            }
 
-					string modsDir = Path.Combine(Paths.GameRootPath, "Mods");
-					if (!Directory.Exists(modsDir))
-					{
-						logger.LogWarning("Mods folder not found!");
-						return;
-					}
+            ScanPMLMods(modsPath);
 
-					var harmony = new Harmony("com.yourname.pmlbridge");
-					foreach (string dllPath in Directory.GetFiles(modsDir, "*.dll"))
-					{
-						try
-						{
-							Assembly modAssembly = Assembly.LoadFrom(dllPath);
-							logger.LogInfo($"Loaded PML mod assembly: {Path.GetFileName(dllPath)}");
-							harmony.PatchAll(modAssembly);
-							foreach (Type type in modAssembly.GetTypes())
-							{
-								if (type.IsSubclassOf(pulsarModType))
-								{
-									logger.LogInfo($"Found PulsarMod type: {type.FullName}");
-									Activator.CreateInstance(type);
-									logger.LogInfo($"Instantiated mod: {type.FullName}");
-								}
-							}
-						}
-						catch (Exception ex)
-						{
-							logger.LogError($"Failed to load PML mod {Path.GetFileName(dllPath)}: {ex.Message}");
-						}
-					}
-				}
-				catch (Exception ex)
-				{
-					logger.LogError($"Failed to load PulsarModLoader.dll: {ex.Message}");
-				}
-			}
-			else
-			{
-				logger.LogError("PulsarModLoader.dll not found in BepInEx/plugins/ or PMLBridgeLibs/! Install it in either location.");
-			}
-		}
-	}
+            var harmony = new Harmony(PluginGuid);
+            harmony.PatchAll(Assembly.GetExecutingAssembly());
+
+            Logger.LogInfo("PML Bridge initialized successfully.");
+        }
+
+        private void ScanPMLMods(string modsPath)
+        {
+            foreach (
+                string dllPath in Directory.GetFiles(modsPath, "*.dll", SearchOption.AllDirectories)
+            )
+            {
+                try
+                {
+                    Assembly modAssembly = Assembly.LoadFrom(dllPath);
+                    string modName = Path.GetFileName(dllPath);
+                    if (IsPMLMod(modAssembly))
+                    {
+                        Logger.LogInfo(
+                            $"Detected PML mod: {modName} (Assembly: {modAssembly.GetName().Name})"
+                        );
+                        PMLModAssemblies.Add(modAssembly);
+                    }
+                    else
+                    {
+                        Logger.LogInfo(
+                            $"Assuming PML mod (loaded by PML): {modName} (Assembly: {modAssembly.GetName().Name})"
+                        );
+                        PMLModAssemblies.Add(modAssembly);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError($"Failed to scan {Path.GetFileName(dllPath)}: {ex.Message}");
+                }
+            }
+        }
+
+        private bool IsPMLMod(Assembly modAssembly)
+        {
+            try
+            {
+                foreach (var type in modAssembly.GetTypes())
+                {
+                    if (type.Namespace != null && type.Namespace.Contains("PulsarModLoader"))
+                        return true;
+                    if (type.Name == "Mod" || type.Name.EndsWith("Mod") || type.Name == "Plugin")
+                        return true;
+                    if (
+                        type.GetMethod(
+                            "Start",
+                            BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static
+                        ) != null
+                    )
+                        return true;
+                    if (
+                        type.GetMethod(
+                            "Main",
+                            BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static
+                        ) != null
+                    )
+                        return true;
+                }
+                return false;
+            }
+            catch (ReflectionTypeLoadException)
+            {
+                return true; // Assume it’s a mod if types can’t load (e.g., game dependencies)
+            }
+        }
+    }
 }
