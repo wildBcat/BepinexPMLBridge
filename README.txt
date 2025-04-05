@@ -92,7 +92,8 @@ Also ensure that the following .NET Framework assemblies are available (automati
 All original work remains © the respective contributors to the PULSAR-Modders repository.
 
 This fork may include changes, enhancements, or adaptations specific to my own use or goals. Any substantial changes will be documented clearly.
-[Pulsar Mod Loader](https://github.com/wildBcat/pulsar-mod-loader-revised).
+[Forked Pulsar Mod Loader](https://github.com/wildBcat/pulsar-mod-loader-revised).
+[Original Pulsar Mod Loader] (https://github.com/PULSAR-Modders/pulsar-mod-loader).
 
 ## Issues
 - Report bugs in the [Issues](https://github.com/wildBcat/BepinexPMLBridge/issuese) tab.
