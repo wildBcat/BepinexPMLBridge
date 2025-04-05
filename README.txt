@@ -86,7 +86,13 @@ Also ensure that the following .NET Framework assemblies are available (automati
 
 ## Credits
 - Built with Grok (xAI).
-- Pairs with forked [Pulsar Mod Loader](https://github.com/wildBcat/pulsar-mod-loader-revised).
+
+- This project includes a file built from the fork of the original PULSAR Mod Loader, developed by the PULSAR Modding Team. It is licensed under the MIT License, which permits reuse and modification with proper attribution.
+
+All original work remains © the respective contributors to the PULSAR-Modders repository.
+
+This fork may include changes, enhancements, or adaptations specific to my own use or goals. Any substantial changes will be documented clearly.
+[Pulsar Mod Loader](https://github.com/wildBcat/pulsar-mod-loader-revised).
 
 ## Issues
 - Report bugs in the [Issues](https://github.com/wildBcat/BepinexPMLBridge/issuese) tab.
