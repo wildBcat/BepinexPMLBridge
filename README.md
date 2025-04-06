@@ -17,6 +17,13 @@ Install this mod using Thunderstore or R2Modman. Install other mods (as desired)
 
 ### Prerequisites
 
+- Use the beta version of *PULSAR: Lost Colony*
+  - Go to *PULSAR: Lost Colony* in Steam and click on the settings cog in the upper-right corner
+  - Click on "Properties"
+  - Click on the "Betas" tab
+  - Click the dropdown for "Bet Participation" and select "mono - Mono branch"
+ ![Image of where to select the beta of the game](https://media.discordapp.net/attachments/1355206779297861642/1357916378463604929/image.png?ex=67f3ebed&is=67f29a6d&hm=2fc0fd89879c0ad5ffc6f90f409790b4a7ef0a98465e44f514656c7d18b7d083&=&format=webp&quality=lossless&width=1486&height=1061)
+
 - BepInEx 5.4.23.2 (via [Thunderstore](https://thunderstore.io/) or manual install).
 - Run the game once to generate BepInEx folders.
 
