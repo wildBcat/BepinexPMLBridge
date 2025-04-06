@@ -1,40 +1,30 @@
-# BepInEx PML Bridge
+# MOD Bridge
 
 A bridge to run Pulsar Mod Loader (PML) mods alongside BepInEx mods in *PULSAR: Lost Colony*. Works with a custom PulsarMod Loader fork (v0.12.3.32).
 
+## WARNING - This is my first mod and has not been extensively tested. It may produce unexpected results. Use at your own risk. If you experience unintended behavior or issues, please see the "Issues" section of this README.
+
 ## Features
-- **Best of Both Worlds:** Alows players to use mods from Thunderstore/R2Modman and Pulsar Mod Loader at the same time.
-- Allows for the Pulsar Mod Loader f5 menu to stiill be functional
+- **Best of Both Worlds:** Allows players to use mods from Thunderstore/R2Modman and Pulsar Mod Loader simultaneously.
+- Allows for the Pulsar Mod Loader f5 menu to be still functional
 
 ## Installation
-Install this mode fusing Thunderstore or R2Modman. Install other mods (as desired) from Thunderstore or R2Modman. Place Pulsar Mod Loaders in the default location for those mods (PULSARLostColony/Mods)
+Install this mod using Thunderstore or R2Modman. Install other mods (as desired) from Thunderstore or R2Modman. Place Pulsar Mod Loaders in the default location for those mods (PULSARLostColony/Mods)
 
 ### Prerequisites
 - BepInEx 5.4.23.2 (via [Thunderstore](https://thunderstore.io/) or manual).
 - Run the game once to generate BepInEx folders.
 
 **Structure:**
-PULSARLostColony/
-├── BepInEx/
-│   ├── plugins/
-│   │   ├── BepinexPMLBridge.dll
-│   │   ├── PMLBridgeLibs/
-│   		└── PulsarModLoader.dll
-│   │   ├── YourBepInExMod.dll
-│   └── ...
-├── Mods/
-│   └── YourPMLMod.dll
-└── ...
+PULSARLostColony/BepInEx/BepinexPMLBridge.dll
+PULSARLostColony/BepInEx/PMLBridgeLibs/PulsarModLoader.dll
+PULSARLostColony/BepInEx/
+PULSARLostColony/Mods/YourPMLMod.dll/YourBepInExMod.dll
 
 ## Usage
 - Launch via Steam.
 - Access PML Mod Menu in-game (e.g., `F5`).
 - Check `BepInEx/LogOutput.log` for details.
-
-## Compatibility
-- Tested with PML v0.12.3.32 and mods: `Max_Players`, `HUD Warptimer`, `RainbowLight`.
-- BepInEx mods tested: `CutsceneSkipper`.
-- Thunderstore/R2Modman users: Manually place PML mods in `PULSARLostColony/Mods/`.
 
 Building
 --------
@@ -62,7 +52,7 @@ To build the project:
 
 ### System Assemblies
 
-Also ensure that the following .NET Framework assemblies are available (automatically included in most setups targeting .NET Framework 4.7.2):
+Also, ensure that the following .NET Framework assemblies are available (automatically included in most setups targeting .NET Framework 4.7.2):
 
 -   `System`
 
