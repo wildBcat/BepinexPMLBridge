@@ -78,12 +78,12 @@ Make sure the following .NET Framework assemblies are available (automatically i
 - Built with Grok (xAI).
 - This project includes a file built from a fork of the original PULSAR Mod Loader, developed by the PULSAR Modding Team. It is licensed under the MIT License, which permits reuse and modification with proper attribution.
 
--- All original work remains © the respective contributors to the PULSAR-Modders repository.
+  - All original work remains © the respective contributors to the PULSAR-Modders repository.
 
--- This fork may include changes, enhancements, or adaptations specific to my own use or goals. Any substantial changes will be documented clearly.
+  - This fork may include changes, enhancements, or adaptations specific to my own use or goals. Any substantial changes will be documented clearly.
 
-- [Forked Pulsar Mod Loader](https://github.com/wildBcat/pulsar-mod-loader-revised)  
-- [Original Pulsar Mod Loader](https://github.com/PULSAR-Modders/pulsar-mod-loader)
+  - [Forked Pulsar Mod Loader](https://github.com/wildBcat/pulsar-mod-loader-revised)  
+  - [Original Pulsar Mod Loader](https://github.com/PULSAR-Modders/pulsar-mod-loader)
 
 ## Issues
 
