@@ -6,6 +6,9 @@ A bridge to run Pulsar Mod Loader (PML) mods alongside BepInEx mods in *PULSAR: 
 
 This is my first mod and has not been extensively tested. It may produce unexpected results. Use at your own risk. If you experience unintended behavior or issues, please see the [Issues](#issues) section of this README.
 
+## Background
+Originally, mods for *PULSAR: Lost Colony* were run using Pulsar Mod Loader. After *PULSAR: Lost Colony* was added to Thunderstore, there was a concern that mods from Pulsar Mod Loader would not be compatible with ones made for Thunderstore using BepIinEx. Something was needed to bridge the two types of mods so they could work together.
+
 ## Features
 
 - **Best of Both Worlds:** Allows players to use mods from Thunderstore/R2Modman and Pulsar Mod Loader simultaneously.
