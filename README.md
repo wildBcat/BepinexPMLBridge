@@ -32,11 +32,10 @@ Install this mod using Thunderstore or R2Modman. Install other mods (as desired)
 
 **Structure:**
 
-- PULSARLostColony/BepInEx/BepinexPMLBridge.dll
-- PULSARLostColony/BepInEx/PMLBridgeLibs/PulsarModLoader.dll
-- PULSARLostColony/BepInEx/
+- PULSARLostColony/BepInEx/Plugins/BepinexPMLBridge.dll
+- PULSARLostColony/BepInEx/Plugins/PMLBridgeLibs/PulsarModLoader.dll
+- PULSARLostColony/BepInEx/Plugins/YourBepInExMod.dll
 - PULSARLostColony/Mods/YourPMLMod.dll
-- PULSARLostColony/Mods/YourBepInExMod.dll
 
 
 ## Usage
